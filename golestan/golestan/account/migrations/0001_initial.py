@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
                 ('student_number', models.CharField(max_length=10, unique=True)),
                 ('intrance_year', models.DateField(auto_now_add=True)),
                 ('years', models.PositiveIntegerField(default=0)),
-                ('militery_service_status', models.CharField(choices=[('exempt', 'Exempt'), ('cardservice', 'CardService'), ('educationalexempt', 'EducationalExempt')], max_length=20)),
+                ('military_service_status', models.CharField(choices=[('exempt', 'Exempt'), ('cardservice', 'CardService'), ('educationalexempt', 'EducationalExempt')], max_length=20)),
             ],
             options={
                 'verbose_name_plural': 'Student',

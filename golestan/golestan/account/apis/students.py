@@ -20,6 +20,7 @@ class StudentApiForItManager(APIView):
 
 
     class InputSerialiser(serializers.Serializer):
+        password = serializers.CharField(max_length=255)
         email = serializers.EmailField()
         first_name = serializers.CharField(max_length=255)
         last_name = serializers.CharField(max_length=255)
@@ -28,14 +29,18 @@ class StudentApiForItManager(APIView):
         national_id = serializers.CharField(max_length=10)
         birth_date = serializers.DateField()
         gender = serializers.CharField(max_length=1)
-        intrance_year = serializers.DateField()
-        militery_service_status = serializers.CharField(max_length=20)
+        entrance_year = serializers.DateField()
+        entrance_term = serializers.IntegerField()
+        military_service_status = serializers.CharField(max_length=20)
+        faculty = serializers.IntegerField()
+        major = serializers.IntegerField()
 
     class OutputSerialiser(serializers.ModelSerializer):
         
         class Meta:
             model = Student
-            fields = ("first_name", "last_name", "email", "account_number", "national_id", "created_at", "updated_at")
+            # fields = ("first_name", "last_name", "email", "account_number", "national_id", "gender", "created_at", "updated_at")
+            fields = "__all__"
         
     @extend_schema(request=InputSerialiser, responses=OutputSerialiser)
     def post(self, request):
@@ -47,13 +52,17 @@ class StudentApiForItManager(APIView):
             query = create_student(serializer.validated_data.get("first_name"),
                                    serializer.validated_data.get("last_name"),
                                    serializer.validated_data.get("account_number"),
+                                   serializer.validated_data.get("phone_number"),
                                    serializer.validated_data.get("national_id"),
                                    serializer.validated_data.get("birth_date"),
                                    serializer.validated_data.get("gender"),
-                                   serializer.validated_data.get("militery_service_status"),
-                                   serializer.validated_data.get("intrance_year"),
+                                   serializer.validated_data.get("military_service_status"),
+                                   serializer.validated_data.get("entrance_year"),
+                                   serializer.validated_data.get("entrance_term"),
                                    serializer.validated_data.get("email"),
-                                   serializer.validated_data.get("phone_number"))
+                                   serializer.validated_data.get("password"),
+                                   serializer.validated_data.get("faculty"),
+                                   serializer.validated_data.get("major"))
         except Exception as ex:
             return Response(
                 f"Database Error {ex}",

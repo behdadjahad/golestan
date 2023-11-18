@@ -65,21 +65,21 @@ class Student(BaseUser) :
         verbose_name_plural = 'Student'
     
     
-    MILITERY_SERVICE_STATUS_CHOICES = (
+    MILITARY_SERVICE_STATUS_CHOICES = (
         ('exempt', 'Exempt'),
         ('cardservice', 'CardService'),
         ('educationalexempt', 'EducationalExempt'),
     )
 
-    intrance_year = models.DateField(auto_now_add=True)
-    intrance_term = models.ForeignKey("term.Term", on_delete=models.PROTECT)
+    entrance_year = models.DateField(auto_now_add=True)
+    entrance_term = models.ForeignKey("term.Term", on_delete=models.PROTECT)
     faculty = models.ForeignKey(Faculty, on_delete=models.PROTECT)
     major = models.ForeignKey(Major, on_delete=models.PROTECT)
     courses = models.ManyToManyField('term.CourseStudent', related_name='enrolled_students', null=True, blank=True) # editted
     # courses = models.ManyToManyField(ApprovedCourse, through='term.CourseStudent', related_name='enrolled_students')
     years = models.PositiveIntegerField(default=0) # should be updated based on student requests
-    supervisor = models.ForeignKey(Professor, on_delete=models.PROTECT) 
-    militery_service_status = models.CharField(max_length=20, choices=MILITERY_SERVICE_STATUS_CHOICES)
+    supervisor = models.ForeignKey(Professor, on_delete=models.PROTECT, null=True, blank=True) 
+    military_service_status = models.CharField(max_length=20, choices=MILITARY_SERVICE_STATUS_CHOICES)
     
     def save(self, *args, **kwargs):
         self.set_password(self.password)

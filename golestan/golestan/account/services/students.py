@@ -9,9 +9,13 @@ def create_student(first_name:str,
                    national_id:str,
                    birth_date,
                    gender:str,
-                   militery_service_status:str,
-                   intrance_year,
-                   email:str
+                   military_service_status:str,
+                   entrance_year,
+                   entrance_term:int,
+                   email:str,
+                   password:str,
+                   faculty:int,
+                   major:int
                    )-> QuerySet[Student]:
     
     return Student.objects.create(
@@ -22,6 +26,10 @@ def create_student(first_name:str,
         national_id=national_id,
         birth_date=birth_date,
         gender=gender,
-        militery_service_status=militery_service_status,
-        intrance_year=intrance_year,
-        email=email)
+        military_service_status=military_service_status,
+        entrance_year=entrance_year,
+        entrance_term=entrance_term,
+        email=email,
+        password=password,
+        faculty=faculty,
+        major=major)
