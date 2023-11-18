@@ -19,6 +19,8 @@ LOCAL_APPS = [
     'golestan.users.apps.UsersConfig',
     'golestan.authentication.apps.AuthenticationConfig',
     'golestan.account.apps.AccountConfig',
+    'golestan.faculty.apps.FacultyConfig',
+    'golestan.term.apps.TermConfig',
 ]
 
 THIRD_PARTY_APPS = [
