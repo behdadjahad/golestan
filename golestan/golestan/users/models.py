@@ -46,6 +46,27 @@ class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('N', 'None'),
+    )
+
+    phone_number = models.CharField(max_length=11, 
+                                    blank=True, 
+                                    null=True, 
+                                    verbose_name='phone number')
+    national_id = models.CharField(max_length=10, 
+                                   blank=True, 
+                                   null=True, 
+                                   verbose_name='national id')
+    birth_date = models.DateField(blank=True, 
+                                  null=True, 
+                                  verbose_name='birth date')
+    gender = models.CharField(max_length=1, 
+                              choices=GENDER_CHOICES,
+                              default='N')
+
     objects = BaseUserManager()
 
     USERNAME_FIELD = "email"
