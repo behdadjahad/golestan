@@ -11,7 +11,6 @@ class Professor(BaseUser) :
     class Meta :
         verbose_name_plural = 'Professor'
     
-    professor_number = models.CharField(max_length=10, unique=True)
     faculty = models.ForeignKey(Faculty, on_delete=models.PROTECT)
     major = models.CharField(max_length=100)
     expertise = models.CharField(max_length=100)
@@ -39,7 +38,6 @@ class ITManager(BaseUser) :
     class Meta :
         verbose_name_plural = 'ITManager'
     
-    itmanager_number = models.CharField(max_length=10, unique=True)
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -52,7 +50,6 @@ class EducationalAssistant(BaseUser) :
     class Meta :
         verbose_name_plural = 'EducationalAssistant'
     
-    educational_assistant_number = models.CharField(max_length=10, unique=True)
     faculty = models.ForeignKey(Faculty, on_delete=models.PROTECT)
     major = models.ManyToManyField(Major)
     def __str__(self):

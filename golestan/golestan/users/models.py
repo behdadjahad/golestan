@@ -52,6 +52,19 @@ class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
         ('N', 'None'),
     )
 
+    first_name = models.CharField(max_length=255,
+                                  blank=True,
+                                  null=True,
+                                  verbose_name="first name")
+    last_name = models.CharField(max_length=255,
+                                 blank=True,
+                                 null=True,
+                                 verbose_name="last name")
+    account_number = models.CharField(max_length=9,
+                                      unique=True,
+                                      blank=True,
+                                      null=True,
+                                      verbose_name="account number")
     phone_number = models.CharField(max_length=11, 
                                     blank=True, 
                                     null=True, 
