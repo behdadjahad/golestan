@@ -70,8 +70,7 @@ class Student(BaseUser) :
         ('cardservice', 'CardService'),
         ('educationalexempt', 'EducationalExempt'),
     )
-    
-    student_number = models.CharField(max_length=10, unique=True)
+
     intrance_year = models.DateField(auto_now_add=True)
     intrance_term = models.ForeignKey("term.Term", on_delete=models.PROTECT)
     faculty = models.ForeignKey(Faculty, on_delete=models.PROTECT)

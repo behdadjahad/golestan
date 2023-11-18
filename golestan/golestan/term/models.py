@@ -1,13 +1,13 @@
 from django.db import models
 
-from django.db import models
-
+from golestan.common.models import BaseModel
 from golestan.account.models import Professor, Student
 from golestan.faculty.models import ApprovedCourse, Department
 
 
+
 # Create your models here.
-class Term(models.Model) :
+class Term(BaseModel) :
 
 
     term_name = models.CharField(max_length=100)
@@ -35,7 +35,7 @@ class Term(models.Model) :
 
 
 
-class TermCourse(models.Model) :
+class TermCourse(BaseModel) :
 
 
     name = models.ForeignKey(ApprovedCourse, 
@@ -64,7 +64,7 @@ class TermCourse(models.Model) :
 
 
 
-class CourseStudent(models.Model) :
+class CourseStudent(BaseModel) :
     COURSE_STATUS_CHOICES = (
         ('passed', 'Passed'),
         ('active', 'Active'),
@@ -82,7 +82,7 @@ class CourseStudent(models.Model) :
         return f"{self.student.username} - {self.course.name.course_name}"
     
     
-class RegistrationRequest(models.Model) :
+class RegistrationRequest(BaseModel) :
     CONFIRMATION_STATUS_CHOICES = (
         ('not send', 'Not Send'),
         ('waiting', 'Waiting'),
@@ -95,7 +95,7 @@ class RegistrationRequest(models.Model) :
     confirmation_status = models.CharField(max_length=10, choices=CONFIRMATION_STATUS_CHOICES, default='Not Send')
     
     
-class RemovalAndExtensionRequest(models.Model) :
+class RemovalAndExtensionRequest(BaseModel) :
     CONFIRMATION_STATUS_CHOICES = (
         ('confirmed', 'Confirmed'),
         ('failed', 'Failed'),
@@ -107,14 +107,14 @@ class RemovalAndExtensionRequest(models.Model) :
     confirmation_status = models.CharField(max_length=10, choices=CONFIRMATION_STATUS_CHOICES)
     
     
-class ReconsiderationRequest(models.Model) :
+class ReconsiderationRequest(BaseModel) :
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(TermCourse, on_delete=models.CASCADE)
     reconsideration_text = models.TextField()
     reconsideration_response = models.TextField()
     
     
-class EmergencyRemovalRequest(models.Model) :
+class EmergencyRemovalRequest(BaseModel) :
     REQUEST_RESULT_CHOICES = (
         ('acc', 'Accepted'),
         ('rjc', 'Rejected'),
@@ -127,7 +127,7 @@ class EmergencyRemovalRequest(models.Model) :
     educational_assistant_explanation = models.TextField(null=True, blank=True)
     
     
-class TermRemovalRequest(models.Model) :
+class TermRemovalRequest(BaseModel) :
     REQUEST_RESULT_CHOICES = (
         ('acc', 'Accepted'),
         ('rjc', 'Rejected'),
@@ -141,7 +141,7 @@ class TermRemovalRequest(models.Model) :
     educational_assistant_explanation = models.TextField(null=True, blank=True)
     
 
-class EnrollmentCertificateRequest(models.Model) :
+class EnrollmentCertificateRequest(BaseModel) :
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     enrollment_certificate = models.FileField() # should be editted
     term = models.ForeignKey(Term, on_delete=models.CASCADE)

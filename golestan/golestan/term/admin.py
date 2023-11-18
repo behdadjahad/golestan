@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from golestan.term.models import Term, TermCourse, CourseStudent, RegistrationRequest
+
+admin.site.register(Term)
+admin.site.register(TermCourse)
+admin.site.register(CourseStudent)
+admin.site.register(RegistrationRequest)

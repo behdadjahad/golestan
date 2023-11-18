@@ -1,14 +1,14 @@
 from django.db import models
+from golestan.common.models import BaseModel
 
-
-class Faculty(models.Model):
+class Faculty(BaseModel):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
 
-class Department(models.Model):
+class Department(BaseModel):
     name = models.CharField(max_length=100)
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
 
@@ -16,7 +16,7 @@ class Department(models.Model):
         return self.name
 
 
-class Major(models.Model):
+class Major(BaseModel):
     name = models.CharField(max_length=100)
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
     department = models.CharField(max_length=100, null=True)
@@ -40,7 +40,7 @@ class Major(models.Model):
         ordering = ["name"]
 
 
-class ApprovedCourse(models.Model):
+class ApprovedCourse(BaseModel):
     COURSE_TYPE_CHOICES = (
         ("general", "Genaral"),
         ("specialized", "Specialized"),
