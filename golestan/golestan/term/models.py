@@ -10,16 +10,14 @@ from golestan.faculty.models import ApprovedCourse, Department
 class Term(BaseModel) :
 
 
-    term_name = models.CharField(max_length=100)
-    students_registered = models.ManyToManyField('account.Student', 
-                                                 related_name='registered_term_students', 
-                                                 blank=True) # add an update
-    professor_registered = models.ManyToManyField('account.Professor', 
-                                                  related_name='registered_term_professor', 
-                                                  blank=True) # add an update
-    term_courses = models.ManyToManyField('term.TermCourse', 
-                                          related_name='courses_term', 
-                                          blank=True) # add an update
+    term_name = models.CharField(max_length=100, unique=True)
+    # students_registered = models.ManyToManyField(Student, 
+    #                                              related_name='registered_term_students', 
+    #                                              blank=True) # add an update
+    # professor_registered = models.ManyToManyField(Professor, 
+    #                                               related_name='registered_term_professor', 
+    #                                               blank=True) # add an update
+
     unit_selection_start_time = models.DateTimeField()
     unit_selection_end_time = models.DateTimeField()
     courses_start_time = models.DateField()
@@ -38,7 +36,7 @@ class Term(BaseModel) :
 class TermCourse(BaseModel) :
 
 
-    name = models.ForeignKey(ApprovedCourse, 
+    course = models.ForeignKey(ApprovedCourse, 
                              on_delete=models.PROTECT) # added # its better to be course instead of name
     class_days_and_times = models.JSONField(help_text="Select class days and times in JSON format")
     exam_time = models.DateTimeField(null=True, 
@@ -52,6 +50,9 @@ class TermCourse(BaseModel) :
     term = models.ForeignKey(Term, 
                              on_delete=models.PROTECT)
     # departmant = models.ManyToManyField(Department) # added
+
+    class Meta:
+        unique_together = ('course', 'term',)
     
     def __str__(self):
         formatted_days_and_times = [
@@ -71,12 +72,13 @@ class CourseStudent(BaseModel) :
         ('failed', 'Failed'),
         ('deleted', 'Deleted'),
     )
-    student = models.ForeignKey(Student, on_delete=models.PROTECT)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(TermCourse, on_delete=models.PROTECT)
-    # course = models.ForeignKey(ApprovedCourse, on_delete=models.PROTECT)
     course_status = models.CharField(max_length=10, choices=COURSE_STATUS_CHOICES)
     student_score = models.FloatField(max_length=20, null=True, blank=True)
-    term_taken = models.ForeignKey('Term', on_delete=models.PROTECT) # should be deleted !!!!!!
+
+    class Meta:
+        unique_together = ('student', 'course',)
     
     def __str__(self) :
         return f"{self.student.username} - {self.course.name.course_name}"
