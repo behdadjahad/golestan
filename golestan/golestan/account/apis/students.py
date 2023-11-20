@@ -19,7 +19,7 @@ class StudentApi(APIView):
         pass
 
 
-    class InputSerialiser(serializers.Serializer):
+    class InputStudentsSerialiser(serializers.Serializer):
         password = serializers.CharField(max_length=255)
         email = serializers.EmailField()
         first_name = serializers.CharField(max_length=255)
@@ -35,17 +35,17 @@ class StudentApi(APIView):
         faculty = serializers.IntegerField()
         major = serializers.IntegerField()
 
-    class OutputSerialiser(serializers.ModelSerializer):
+    class OutputStudentsSerialiser(serializers.ModelSerializer):
         
         class Meta:
             model = Student
             # fields = ("first_name", "last_name", "email", "account_number", "national_id", "gender", "created_at", "updated_at")
             fields = "__all__"
         
-    @extend_schema(request=InputSerialiser, responses=OutputSerialiser)
+    @extend_schema(request=InputStudentsSerialiser, responses=OutputStudentsSerialiser)
     def post(self, request):
         
-        serializer = self.InputSerialiser(data=request.data)
+        serializer = self.InputStudentsSerialiser(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         try:
@@ -68,16 +68,18 @@ class StudentApi(APIView):
                 f"Database Error {ex}",
                 status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(self.OutputSerialiser(query, context={"request":request}).data)
+        return Response(self.OutputStudentsSerialiser(query, context={"request":request}).data)
     
-    @extend_schema(responses=OutputSerialiser)
+    @extend_schema(responses=OutputStudentsSerialiser)
     def get(self, request):
         query = get_students()
-        return Response(self.OutputSerialiser(query, context={"request":request}, many=True).data)
+        return Response(self.OutputStudentsSerialiser(query, context={"request":request}, many=True).data)
+
+
 
 class StudentDetailApi(APIView):
 
-    class OutputSerialiser(serializers.ModelSerializer):
+    class OutputStudentSerialiser(serializers.ModelSerializer):
         
         class Meta:
             model = Student
@@ -85,7 +87,7 @@ class StudentDetailApi(APIView):
             # fields = "__all__"
         
 
-    @extend_schema(responses=OutputSerialiser)
+    @extend_schema(responses=OutputStudentSerialiser)
     def get(self, request, id):
 
         try:
@@ -95,13 +97,13 @@ class StudentDetailApi(APIView):
                 f"Database Error {ex}",
                 status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(self.OutputSerialiser(query, context={"request":request}).data)
+        return Response(self.OutputStudentSerialiser(query, context={"request":request}).data)
     
-    @extend_schema(responses=OutputSerialiser)
+    @extend_schema(responses=OutputStudentSerialiser)
     def put(self, request, id):
         pass
 
-    @extend_schema(responses=OutputSerialiser)
+    @extend_schema(responses=OutputStudentSerialiser)
     def delete(self, request, id):
         try:
             query = delete_student(id=id)
@@ -110,4 +112,4 @@ class StudentDetailApi(APIView):
                 f"Database Error {ex}",
                 status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(self.OutputSerialiser(query, context={"request":request}).data)
+        return Response(self.OutputStudentSerialiser(query, context={"request":request}).data)

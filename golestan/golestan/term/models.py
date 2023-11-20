@@ -5,6 +5,8 @@ from golestan.account.models import Professor, Student
 from golestan.faculty.models import ApprovedCourse, Department
 
 
+from django.utils.timezone import now #TODO: fix in production
+
 
 # Create your models here.
 class Term(BaseModel) :
@@ -24,6 +26,7 @@ class Term(BaseModel) :
     courses_end_time = models.DateField()
     repairing_unit_selection_start_time = models.DateTimeField()
     repairing_unit_selection_end_time = models.DateTimeField()
+    emergency_deletion_start_time = models.DateTimeField(default=now, null=True, blank=True) #TODO: fix in production
     emergency_deletion_end_time = models.DateTimeField()
     exams_start_time = models.DateField()
     term_end_time = models.DateField()
