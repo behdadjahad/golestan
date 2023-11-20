@@ -29,6 +29,7 @@ def create_student(*,
     faculty_object = Faculty.objects.get(id=faculty)
     if faculty_object is None:
         raise Exception("There is no faculty with this id.")
+    
 
     return Student.objects.create(
         first_name=first_name,
@@ -49,3 +50,12 @@ def create_student(*,
 
 def update_student() -> QuerySet[Student]:
     pass
+
+def delete_student(*, id:int) -> QuerySet[Student]:
+    
+    student = Student.objects.get(id=id)
+    if student is None:
+        raise Exception("There is no student with this id.")
+    
+    student.delete()
+        

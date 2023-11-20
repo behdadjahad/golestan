@@ -7,12 +7,12 @@ from rest_framework import serializers
 from golestan.api.pagination import LimitOffsetPagination
 from golestan.account.models import Student
 
-from golestan.account.services.students import create_student
-from golestan.account.selectors.students import get_students
+from golestan.account.services.students import *
+from golestan.account.selectors.students import *
 
 from drf_spectacular.utils import extend_schema
 
-class StudentApiForItManager(APIView):
+class StudentApi(APIView):
 
 
     class Pagination(LimitOffsetPagination):
@@ -75,8 +75,39 @@ class StudentApiForItManager(APIView):
         query = get_students()
         return Response(self.OutputSerialiser(query, context={"request":request}, many=True).data)
 
-    def put(self, request):
-        pass
+class StudentDetailApi(APIView):
+
+    class OutputSerialiser(serializers.ModelSerializer):
+        
+        class Meta:
+            model = Student
+            fields = ("first_name", "last_name", "email", "account_number", "national_id", "gender", "created_at", "updated_at")
+            # fields = "__all__"
+        
+
+    @extend_schema(responses=OutputSerialiser)
+    def get(self, request, id):
+
+        try:
+            query = get_student_detail(id=id)
+        except Exception as ex:
+            return Response(
+                f"Database Error {ex}",
+                status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(self.OutputSerialiser(query, context={"request":request}).data)
     
-    def delete(self, request):
+    @extend_schema(responses=OutputSerialiser)
+    def put(self, request, id):
         pass
+
+    @extend_schema(responses=OutputSerialiser)
+    def delete(self, request, id):
+        try:
+            query = delete_student(id=id)
+        except Exception as ex:
+            return Response(
+                f"Database Error {ex}",
+                status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(self.OutputSerialiser(query, context={"request":request}).data)
