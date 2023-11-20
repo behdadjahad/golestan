@@ -36,7 +36,7 @@ def delete_term(*, id:int) -> QuerySet[Term]:
     
     term = Term.objects.get(id=id)
     if term is None:
-        raise Exception("There is no student with this id.")
+        raise Exception("There is no term with this id.")
     
     term.delete()
         
