@@ -41,7 +41,7 @@ def delete_assistant(*, id:int) -> QuerySet[EducationalAssistant]:
     
     assistant = EducationalAssistant.objects.get(id=id)
     if assistant is None:
-        raise Exception("There is no student with this id.")
+        raise Exception("There is no assitant with this id.")
     
     assistant.delete()
         

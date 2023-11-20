@@ -12,7 +12,7 @@ from golestan.account.selectors.faculties import *
 
 from drf_spectacular.utils import extend_schema
 
-class FacultiesApi(APIView):
+class FacultyApi(APIView):
 
 
     class Pagination(LimitOffsetPagination):

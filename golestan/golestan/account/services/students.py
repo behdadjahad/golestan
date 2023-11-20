@@ -24,7 +24,7 @@ def create_student(*,
 
     major_object = Major.objects.get(id=major)
     if  major_object is None:
-        raise Exception("There is no faculty with this id.")
+        raise Exception("There is no major with this id.")
 
     faculty_object = Faculty.objects.get(id=faculty)
     if faculty_object is None:

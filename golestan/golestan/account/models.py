@@ -12,7 +12,7 @@ class Professor(BaseUser) :
         verbose_name_plural = 'Professor'
     
     faculty = models.ForeignKey(Faculty, on_delete=models.PROTECT)
-    major = models.CharField(max_length=100)
+    major = models.ForeignKey(Major, on_delete=models.PROTECT)
     expertise = models.CharField(max_length=100)
     degree = models.CharField(max_length=100)
     # presented_courses = models.ManyToManyField(ApprovedCourse.objects.filter(faculty=faculty), blank=True)
