@@ -30,7 +30,7 @@ class StudentApiForItManager(APIView):
         birth_date = serializers.DateField()
         gender = serializers.CharField(max_length=1)
         entrance_year = serializers.DateField()
-        entrance_term = serializers.IntegerField()
+        entrance_term = serializers.CharField(max_length=225)
         military_service_status = serializers.CharField(max_length=20)
         faculty = serializers.IntegerField()
         major = serializers.IntegerField()
@@ -49,20 +49,20 @@ class StudentApiForItManager(APIView):
         serializer.is_valid(raise_exception=True)
 
         try:
-            query = create_student(serializer.validated_data.get("first_name"),
-                                   serializer.validated_data.get("last_name"),
-                                   serializer.validated_data.get("account_number"),
-                                   serializer.validated_data.get("phone_number"),
-                                   serializer.validated_data.get("national_id"),
-                                   serializer.validated_data.get("birth_date"),
-                                   serializer.validated_data.get("gender"),
-                                   serializer.validated_data.get("military_service_status"),
-                                   serializer.validated_data.get("entrance_year"),
-                                   serializer.validated_data.get("entrance_term"),
-                                   serializer.validated_data.get("email"),
-                                   serializer.validated_data.get("password"),
-                                   serializer.validated_data.get("faculty"),
-                                   serializer.validated_data.get("major"))
+            query = create_student(first_name=serializer.validated_data.get("first_name"),
+                                   last_name=serializer.validated_data.get("last_name"),
+                                   account_number=serializer.validated_data.get("account_number"),
+                                   phone_number=serializer.validated_data.get("phone_number"),
+                                   national_id=serializer.validated_data.get("national_id"),
+                                   birth_date=serializer.validated_data.get("birth_date"),
+                                   gender=serializer.validated_data.get("gender"),
+                                   military_service_status=serializer.validated_data.get("military_service_status"),
+                                   entrance_year=serializer.validated_data.get("entrance_year"),
+                                   entrance_term=serializer.validated_data.get("entrance_term"),
+                                   email=serializer.validated_data.get("email"),
+                                   password=serializer.validated_data.get("password"),
+                                   faculty=serializer.validated_data.get("faculty"),
+                                   major=serializer.validated_data.get("major"))
         except Exception as ex:
             return Response(
                 f"Database Error {ex}",
